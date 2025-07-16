@@ -18,7 +18,7 @@ class Shuffler(BaseNode[T]):
     Args:
         source_node (BaseNode[T]): The source node to pull items from.
         buffer_size (int, optional): Size of the buffer used for shuffling. Must be at least 1.
-            Defaults to 1024.
+            Defaults to DEFAULT_BUFFER_SIZE (1024).
         seed (Optional[int]): Optional seed for the random number generator.
         store_buffer (bool, optional): Whether to store buffer contents in state for full
             reproducibility. If True, buffer contents are serialized which ensures perfect
@@ -32,9 +32,14 @@ class Shuffler(BaseNode[T]):
     BUFFER_KEY = "buffer"
     NUM_YIELDED_KEY = "num_yielded"
     STORE_BUFFER_KEY = "store_buffer"
+    DEFAULT_BUFFER_SIZE = 1024
 
     def __init__(
-        self, source_node: BaseNode[T], buffer_size: int = 1024, seed: Optional[int] = None, store_buffer: bool = True
+        self,
+        source_node: BaseNode[T],
+        buffer_size: int = DEFAULT_BUFFER_SIZE,
+        seed: Optional[int] = None,
+        store_buffer: bool = True,
     ):
         super().__init__()
         if buffer_size < 1:
